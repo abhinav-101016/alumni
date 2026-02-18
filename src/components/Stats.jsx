@@ -1,4 +1,5 @@
 "use client"
+
 import { Playfair_Display } from "next/font/google"
 
 const headingFont = Playfair_Display({
@@ -34,47 +35,43 @@ function Counter({ target }) {
 }
 
 export default function Stats() {
+
   const stats = [
     {
       icon: <FaUserGraduate size={38} />,
-      value: 25000,
+      value: 40000,
       label: "Alumni Worldwide",
     },
     {
       icon: <FaGlobeAsia size={38} />,
-      value: 40,
-      label: "Countries Represented",
+      value: 20,
+      label: "Countries Where Alumni Work",
     },
     {
       icon: <FaBuilding size={38} />,
-      value: 500,
-      label: "Top Companies",
+      value: 200,
+      label: "Leading Organizations",
     },
     {
       icon: <FaHandshake size={38} />,
-      value: 1200,
-      label: "Mentorship Connections",
+      value: 1500,
+      label: "Mentorship & Industry Connects",
     },
   ]
 
   return (
     <section className="w-full py-28 bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white">
-
-      {/* Heading */}
       <div className="text-center mb-20 px-6">
         <h2 className=" [font-family:var(--font-playfair)] text-4xl sm:text-5xl font-bold tracking-tight">
-          Alumni Impact
+          IET Lucknow Alumni Impact
         </h2>
-         <div className="mt-4 w-24 h-[2px] bg-slate-400 mx-auto"/>
+        <div className="mt-4 w-24 h-[2px] bg-slate-400 mx-auto"/>
         <p className="mt-6 text-slate-400 max-w-2xl mx-auto text-lg">
-          Our alumni network spans continents, industries, and generations —
-          building a legacy of excellence worldwide.
+          Statistics representing real influence and reach of the IET Lucknow alumni network.
         </p>
       </div>
 
-      {/* Stats Grid */}
       <div className="max-w-7xl mx-auto px-6 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-
         {stats.map((item, i) => (
           <div
             key={i}
@@ -86,29 +83,19 @@ export default function Stats() {
             hover:shadow-blue-900/40
             transition-all duration-500"
           >
-
-            {/* Glow background */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500
             bg-gradient-to-br from-blue-600/10 to-transparent"/>
-
-            {/* Icon */}
             <div className="mb-5 flex justify-center text-blue-400 group-hover:scale-110 transition duration-500">
               {item.icon}
             </div>
-
-            {/* Number */}
             <h3 className="text-4xl font-extrabold text-white">
               <Counter target={item.value}/>
             </h3>
-
-            {/* Label */}
             <p className="mt-3 text-slate-400 font-medium">
               {item.label}
             </p>
-
           </div>
         ))}
-
       </div>
     </section>
   )
