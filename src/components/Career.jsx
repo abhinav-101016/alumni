@@ -3,20 +3,20 @@ import Image from "next/image";
 export default function ProgrammingPurpose() {
   const cards = [
     {
-      title: "Career Opportunities",
-      desc: "Discover exclusive job openings, alumni referrals, and industry connections designed to accelerate your professional journey.",
+      title: "Career Pathways at IET",
+      desc: "Access exclusive opportunities shared by IET Lucknow alumni including referrals, industry openings, and guidance from graduates working across leading tech, core, and research organizations.",
       img: "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1400&auto=format&fit=crop",
-      cta: "Explore Careers",
+      cta: "View Opportunities",
     },
     {
-      title: "Student Support",
-      desc: "Current students gain guidance, internships, and real-world insights directly from accomplished alumni worldwide.",
+      title: "Student–Alumni Collaboration",
+      desc: "Current IET students receive direct mentorship, internship referrals, and practical career insights from seniors who once walked the same campus corridors.",
       img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1400&auto=format&fit=crop",
-      cta: "Support Students",
+      cta: "Get Guidance",
     },
     {
-      title: "Mentorship Programs",
-      desc: "Connect with experienced graduates who provide career direction, skill advice, and long-term professional mentorship.",
+      title: "IET Mentorship Network",
+      desc: "Connect with experienced IET Lucknow graduates who help you navigate career decisions, build strong skills, and grow with confidence in competitive industries.",
       img: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1400&auto=format&fit=crop",
       cta: "Find a Mentor",
     },
@@ -28,14 +28,14 @@ export default function ProgrammingPurpose() {
       {/* Heading */}
       <div className="text-center mb-24 px-6">
         <h2 className="[font-family:var(--font-playfair)] text-4xl md:text-5xl font-bold tracking-tight">
-          Programming with Purpose
+          Strengthening the IET Lucknow Community
         </h2>
 
         <div className="mt-5 w-24 h-[2px] bg-blue-500 mx-auto"/>
 
         <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-600">
-          Our alumni network empowers graduates and students through meaningful
-          programs that inspire growth, connection, and impact.
+          The IET Lucknow alumni network bridges generations of students and graduates,
+          creating opportunities for mentorship, collaboration, and professional growth.
         </p>
       </div>
 

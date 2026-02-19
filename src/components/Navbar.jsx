@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Menu, X, Search, ChevronDown } from "lucide-react"
 import { Playfair_Display } from "next/font/google"
 
@@ -24,7 +25,6 @@ export default function Navbar() {
         { name: "Executive Committee", href: "/committees/executive-committee" },
         { name: "Advisory Committee", href: "/committees/advisory-committee" },
         { name: "Constitution", href: "/constitution" },
-        
       ]
     },
     { name: "Alumni", href: "/alumni", options: ["Directory", "Success Stories", "Chapters"] },
@@ -32,7 +32,6 @@ export default function Navbar() {
     { name: "Contact", href: "/contact", options: ["Support", "FAQs", "Reach Us"] },
   ]
 
-  // Helper to normalize string/object options
   const getOptionProps = (opt) => {
     if (typeof opt === "string") return { name: opt, href: `/${opt.toLowerCase().replace(/\s/g,"-")}` }
     return { name: opt.name, href: opt.href }
@@ -46,8 +45,8 @@ export default function Navbar() {
         {/* TOP BAR */}
         <div className="flex items-center justify-between px-4 sm:px-10 py-4 sm:py-5">
 
-          {/* LOGO + TITLE */}
-          <a href="/" className="flex items-center gap-3 cursor-pointer">
+          {/* LOGO */}
+          <Link href="/" className="flex items-center gap-3">
             <div className="relative w-10 h-10 sm:w-12 sm:h-12 shrink-0">
               <Image
                 src="/images/logo1.png"
@@ -57,29 +56,29 @@ export default function Navbar() {
                 priority
               />
             </div>
+
             <div className="flex flex-col leading-tight">
-              <span className="font-bold uppercase tracking-wide
-                text-white text-sm sm:text-lg">
+              <span className="font-bold uppercase tracking-wide text-white text-sm sm:text-lg">
                 IET Lucknow
               </span>
-              <span className={`${playfair.className} italic text-blue-300
-                text-sm sm:text-lg`}>
+              <span className={`${playfair.className} italic text-blue-300 text-sm sm:text-lg`}>
                 alumni
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* DESKTOP NAV */}
           <div className="hidden lg:flex items-center gap-10">
             {navItems.map(item => (
               <div key={item.name} className="relative group">
-                <a
+
+                <Link
                   href={item.href}
                   className="text-white/90 hover:text-white text-lg font-medium flex items-center gap-1 transition"
                 >
                   {item.name}
                   {item.options && <ChevronDown size={18}/>}
-                </a>
+                </Link>
 
                 {item.options && (
                   <div
@@ -87,19 +86,19 @@ export default function Navbar() {
                       bg-[#0f172a] border border-white/10 shadow-2xl
                       opacity-0 invisible scale-95
                       group-hover:opacity-100 group-hover:visible group-hover:scale-100
-                      transition-all duration-200 origin-top"
+                      transition-all duration-200 origin-top rounded-xl overflow-hidden"
                   >
                     {item.options.map(opt => {
                       const { name, href } = getOptionProps(opt)
                       return (
-                        <a
+                        <Link
                           key={name}
                           href={href}
                           className="block px-6 py-3 text-sm text-white/80
                             hover:text-white hover:bg-white/5 transition"
                         >
                           {name}
-                        </a>
+                        </Link>
                       )
                     })}
                   </div>
@@ -110,6 +109,7 @@ export default function Navbar() {
 
           {/* RIGHT SIDE */}
           <div className="flex items-center gap-3">
+
             {/* Desktop Search */}
             <div className="hidden md:flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-xl">
               <Search size={18} className="text-white/80"/>
@@ -119,13 +119,16 @@ export default function Navbar() {
               />
             </div>
 
-            {/* Login */}
-            <button className="hidden lg:block px-6 py-2.5 rounded-xl font-medium text-white
+            {/* SIGN UP BUTTON DESKTOP */}
+            <Link
+              href="/signup"
+              className="hidden lg:block px-6 py-2.5 rounded-xl font-medium text-white
               bg-gradient-to-r from-blue-500 to-blue-700
               hover:from-blue-600 hover:to-blue-800
-              shadow-lg transition">
-              Login
-            </button>
+              shadow-lg transition text-center"
+            >
+              Sign Up
+            </Link>
 
             {/* Mobile Search */}
             <button
@@ -140,6 +143,7 @@ export default function Navbar() {
               className="lg:hidden text-white p-2 rounded-lg hover:bg-white/10">
               {menuOpen ? <X size={28}/> : <Menu size={28}/> }
             </button>
+
           </div>
         </div>
 
@@ -159,6 +163,7 @@ export default function Navbar() {
         {/* MOBILE MENU */}
         <div className={`lg:hidden overflow-hidden transition-all ${menuOpen ? "max-h-[600px] py-6" : "max-h-0"}`}>
           <div className="flex flex-col gap-5 px-6 text-white">
+
             {navItems.map(item => (
               <div key={item.name}>
                 <div
@@ -177,13 +182,13 @@ export default function Navbar() {
                     {item.options.map(opt => {
                       const { name, href } = getOptionProps(opt)
                       return (
-                        <a
+                        <Link
                           key={name}
                           href={href}
                           className="block pl-4 py-2 text-white/70 hover:text-white"
                         >
                           {name}
-                        </a>
+                        </Link>
                       )
                     })}
                   </div>
@@ -191,11 +196,17 @@ export default function Navbar() {
               </div>
             ))}
 
-            <button className="mt-3 bg-gradient-to-r from-blue-500 to-blue-700 py-3 rounded-xl font-semibold">
-              Login
-            </button>
+            {/* SIGN UP BUTTON MOBILE */}
+            <Link
+              href="/signup"
+              className="mt-3 text-center bg-gradient-to-r from-blue-500 to-blue-700 py-3 rounded-xl font-semibold"
+            >
+              Sign Up
+            </Link>
+
           </div>
         </div>
+
       </nav>
     </header>
   )

@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react"
+import { ChevronDown } from "lucide-react"
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -25,315 +26,153 @@ export default function SignupForm() {
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target
-    if (type === "checkbox") {
+
+    if (type === "checkbox")
       setFormData({ ...formData, [name]: checked })
-    } else if (type === "file") {
+    else if (type === "file")
       setFormData({ ...formData, [name]: files[0] })
-    } else if (name.includes("socialLinks.")) {
+    else if (name.includes("socialLinks.")) {
       const key = name.split(".")[1]
-      setFormData({ ...formData, socialLinks: { ...formData.socialLinks, [key]: value } })
-    } else {
-      setFormData({ ...formData, [name]: value })
+      setFormData({
+        ...formData,
+        socialLinks: { ...formData.socialLinks, [key]: value }
+      })
     }
+    else
+      setFormData({ ...formData, [name]: value })
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(formData)
-    // Add submit logic here
+  const courses = ["B.Tech","M.Tech","PhD"]
+  const branches = ["CSE","ECE","Mechanical","Civil","EE","IT"]
+  const hostels = ["Hostel A","Hostel B","Hostel C","Hostel D"]
+  const bloodGroups = ["A+","A-","B+","B-","AB+","AB-","O+","O-"]
+
+  const Dropdown = ({ name, value, options, placeholder }) => (
+    <div className="relative">
+      <select
+        name={name}
+        value={value}
+        onChange={handleChange}
+        className="w-full border border-white/20 rounded-xl px-4 py-2.5
+        bg-[#020617] text-white
+        focus:ring-2 focus:ring-blue-500 outline-none
+        hover:border-white/40 transition appearance-none"
+      >
+        <option value="" className="bg-[#020617] text-gray-400">{placeholder}</option>
+        {options.map(opt => (
+          <option key={opt} value={opt} className="bg-[#020617] text-white">
+            {opt}
+          </option>
+        ))}
+      </select>
+      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-white/70 pointer-events-none"/>
+    </div>
+  )
+
+const Input = ({ label, name, type="text" }) => {
+
+  const getAutoComplete = () => {
+    if(name === "email") return "email"
+    if(name === "phone") return "tel"
+    if(name === "password") return "new-password"
+    if(name === "name") return "name"
+    if(name === "city") return "address-level2"
+    if(name === "country") return "country"
+    if(name === "dob") return "bday"
+    return "off"
   }
-
-  const courses = ["B.Tech", "M.Tech", "PhD"]
-  const branches = ["CSE", "ECE", "Mechanical", "Civil", "EE", "IT"]
-  const hostels = ["Hostel A", "Hostel B", "Hostel C", "Hostel D"]
-  const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]
-
-  const selectClass =
-    "border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none appearance-none relative pr-10"
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#020617] via-[#0f172a] to-[#1e3a8a] p-4">
-      <div className="relative w-full max-w-5xl p-8 bg-[#0f172a] rounded-3xl shadow-2xl border border-white/10
-        before:absolute before:inset-0 before:bg-gradient-to-tr before:from-white/5 before:via-white/2 before:blur-xl before:rounded-3xl">
-        <h2 className="text-3xl font-bold text-white text-center mb-8 z-10 relative">Sign Up</h2>
-        <form className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10" onSubmit={handleSubmit}>
+    <div className="flex flex-col">
+      <label className="mb-1 text-sm text-white/80">{label}</label>
+      <input
+        type={type}
+        name={name}
+        value={formData[name] || ""}
+        onChange={handleChange}
+        autoComplete={getAutoComplete()}
+        className="border border-white/20 rounded-xl px-4 py-2.5
+        bg-[#020617] text-white
+        focus:ring-2 focus:ring-blue-500 outline-none
+        hover:border-white/40 transition"
+      />
+    </div>
+  )
+}
 
-          {/* Name */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">Full Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="John Doe"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-              required
-            />
-          </div>
+  return (
+    <div className="min-h-screen flex items-center justify-center
+      bg-gradient-to-b from-[#020617] via-[#0f172a] to-[#1e3a8a] p-6">
 
-          {/* Email */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="john@example.com"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-              required
-            />
-            <div className="flex items-center gap-2 mt-1">
-              <input
-                type="checkbox"
-                name="emailPrivate"
-                checked={formData.emailPrivate}
-                onChange={handleChange}
-                className="w-4 h-4 accent-blue-500"
-              />
-              <span className="text-sm text-white/70">Make email private</span>
-            </div>
-          </div>
+      <div className="w-full max-w-3xl bg-[#0f172a]
+        border border-white/10 shadow-2xl p-8">
 
-          {/* Phone */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">Phone Number</label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="+91 9876543210"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-              required
-            />
-            <div className="flex items-center gap-2 mt-1">
-              <input
-                type="checkbox"
-                name="phonePrivate"
-                checked={formData.phonePrivate}
-                onChange={handleChange}
-                className="w-4 h-4 accent-blue-500"
-              />
-              <span className="text-sm text-white/70">Make phone private</span>
-            </div>
-          </div>
+        <h2 className="text-3xl font-bold text-white text-center mb-8">
+          Create Account
+        </h2>
 
-          {/* Gender */}
-          <div className="flex flex-col relative">
-            <label className="mb-1 font-medium text-white/90">Gender</label>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className={selectClass}
-              required
-            >
-              <option value="" className="text-black">Select gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+        <form className="grid md:grid-cols-2 gap-5">
 
-          {/* DOB */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">Date of Birth</label>
-            <input
-              type="date"
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-              required
-            />
-          </div>
+          <Input label="Full Name" name="name"/>
+          <Input label="Email" name="email" type="email"/>
+          <Input label="Phone" name="phone"/>
 
-          {/* Course */}
-          <div className="flex flex-col relative">
-            <label className="mb-1 font-medium text-white/90">Course</label>
-            <select
-              name="course"
-              value={formData.course}
-              onChange={handleChange}
-              className={selectClass}
-              required
-            >
-              <option value="">Select course</option>
-              {courses.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </div>
+          <Dropdown name="gender" value={formData.gender}
+            options={["Male","Female","Other"]}
+            placeholder="Select Gender"
+          />
 
-          {/* Branch */}
-          <div className="flex flex-col relative">
-            <label className="mb-1 font-medium text-white/90">Branch</label>
-            <select
-              name="branch"
-              value={formData.branch}
-              onChange={handleChange}
-              className={selectClass}
-              required
-            >
-              <option value="">Select branch</option>
-              {branches.map(b => <option key={b} value={b}>{b}</option>)}
-            </select>
-          </div>
+          <Input label="Date of Birth" name="dob" type="date"/>
+          <Dropdown name="course" value={formData.course} options={courses} placeholder="Course"/>
+          <Dropdown name="branch" value={formData.branch} options={branches} placeholder="Branch"/>
+          <Input label="Passing Year" name="passingYear" type="number"/>
+          <Dropdown name="hostel" value={formData.hostel} options={hostels} placeholder="Hostel"/>
+          <Input label="City" name="city"/>
+          <Input label="Country" name="country"/>
+          <Input label="Password" name="password" type="password"/>
+          <Dropdown name="bloodGroup" value={formData.bloodGroup} options={bloodGroups} placeholder="Blood Group"/>
 
-          {/* Passing Year */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">Passing Year</label>
-            <input
-              type="number"
-              name="passingYear"
-              value={formData.passingYear}
-              onChange={handleChange}
-              placeholder="2026"
-              min="1900"
-              max="2100"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-              required
-            />
-          </div>
-
-          {/* Hostel */}
-          <div className="flex flex-col relative">
-            <label className="mb-1 font-medium text-white/90">Hostel</label>
-            <select
-              name="hostel"
-              value={formData.hostel}
-              onChange={handleChange}
-              className={selectClass}
-            >
-              <option value="">Select hostel</option>
-              {hostels.map(h => <option key={h} value={h}>{h}</option>)}
-            </select>
-          </div>
-
-          {/* City */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">City</label>
-            <input
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              placeholder="Lucknow"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-            />
-          </div>
-
-          {/* Country */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">Country</label>
-            <input
-              type="text"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              placeholder="India"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-            />
-          </div>
-
-          {/* Password */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="********"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-              required
-            />
-          </div>
-
-          {/* Blood Group */}
-          <div className="flex flex-col relative">
-            <label className="mb-1 font-medium text-white/90">Blood Group</label>
-            <select
-              name="bloodGroup"
-              value={formData.bloodGroup}
-              onChange={handleChange}
-              className={selectClass}
-            >
-              <option value="">Select blood group</option>
-              {bloodGroups.map(bg => <option key={bg} value={bg}>{bg}</option>)}
-            </select>
-          </div>
-
-          {/* Bio */}
-          <div className="flex flex-col md:col-span-2">
-            <label className="mb-1 font-medium text-white/90">Bio</label>
+          <div className="md:col-span-2">
+            <label className="text-sm text-white/80">Bio</label>
             <textarea
               name="bio"
+              rows={3}
               value={formData.bio}
               onChange={handleChange}
-              placeholder="Tell us about yourself..."
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none resize-none hover:border-white/30 transition"
-              rows={3}
+              className="mt-1 w-full border border-white/20 rounded-xl px-4 py-2.5
+              bg-[#020617] text-white focus:ring-2 focus:ring-blue-500 outline-none"
             />
           </div>
 
-          {/* Profile Picture */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">Profile Picture</label>
-            <input
-              type="file"
-              name="profilePic"
-              onChange={handleChange}
-              accept="image/*"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
+          {["linkedin","github","twitter"].map(site => (
+            <Input
+              key={site}
+              label={site.charAt(0).toUpperCase()+site.slice(1)}
+              name={`socialLinks.${site}`}
             />
-          </div>
+          ))}
 
-          {/* Social Links */}
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">LinkedIn</label>
-            <input
-              type="url"
-              name="socialLinks.linkedin"
-              value={formData.socialLinks.linkedin}
-              onChange={handleChange}
-              placeholder="https://linkedin.com/in/username"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">GitHub</label>
-            <input
-              type="url"
-              name="socialLinks.github"
-              value={formData.socialLinks.github}
-              onChange={handleChange}
-              placeholder="https://github.com/username"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-            />
-          </div>
-          <div className="flex flex-col">
-            <label className="mb-1 font-medium text-white/90">Twitter</label>
-            <input
-              type="url"
-              name="socialLinks.twitter"
-              value={formData.socialLinks.twitter}
-              onChange={handleChange}
-              placeholder="https://twitter.com/username"
-              className="border border-white/20 rounded-lg px-4 py-2 bg-transparent text-white placeholder:text-white/50 focus:ring-2 focus:ring-blue-500 outline-none hover:border-white/30 transition"
-            />
-          </div>
+          <div className="md:col-span-2 flex flex-col items-center gap-3 mt-4">
 
-          {/* Submit */}
-          <div className="md:col-span-2 flex justify-center">
             <button
               type="submit"
-              className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold px-8 py-3 rounded-xl shadow-lg transition"
+              className="w-full md:w-1/2 py-3 font-semibold text-white
+              rounded-xl
+              bg-gradient-to-r from-blue-500 to-blue-700
+              hover:from-blue-600 hover:to-blue-800
+              shadow-lg transition"
             >
               Sign Up
             </button>
-          </div>
 
+            <p className="text-sm text-white/70">
+              Already have an account?{" "}
+              <a href="/login" className="text-blue-400 hover:text-blue-300 font-medium">
+                Login
+              </a>
+            </p>
+
+          </div>
         </form>
       </div>
     </div>

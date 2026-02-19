@@ -1,10 +1,11 @@
 "use client"
 
+import Image from "next/image"
 import { Playfair_Display, Inter } from "next/font/google"
 
 const headingFont = Playfair_Display({
   subsets: ["latin"],
-  weight: ["700", "800"],
+  weight: ["700","800"],
 })
 
 const bodyFont = Inter({
@@ -15,14 +16,18 @@ export default function Hero() {
   return (
     <section className="relative w-full h-[92vh] flex items-center justify-center text-white overflow-hidden">
 
-      {/* Background */}
+      {/* Background Image */}
       <div className="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop"
+        <Image
+          src="/images/footer-bg.png"   // <-- place your image inside public/images
           alt="campus"
-          className="w-full h-full object-cover"
+          fill
+          priority
+          className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-900/90 to-blue-950/85"/>
+
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/90 via-slate-900/85 to-blue-950/80"/>
       </div>
 
       {/* Content */}
@@ -40,13 +45,17 @@ export default function Hero() {
         </h1>
 
         {/* Subtext */}
-        <p className={`${bodyFont.className} mt-6 text-base sm:text-lg lg:text-xl text-slate-300 max-w-2xl mx-auto`}>
+        <p
+          className={`${bodyFont.className}
+          mt-6 text-base sm:text-lg lg:text-xl text-slate-300
+          max-w-2xl mx-auto`}
+        >
           Stay connected with fellow alumni of IET Lucknow, celebrate achievements,
           expand your professional network, and continue building the legacy
           that began on campus.
         </p>
 
-        {/* CTA */}
+        {/* Buttons */}
         <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
 
           <button className="px-8 py-3 rounded-lg font-semibold
@@ -55,8 +64,10 @@ export default function Hero() {
             Join Alumni Network
           </button>
 
-          <button className="px-8 py-3 rounded-lg font-semibold border border-slate-400/40
-          bg-white/5 backdrop-blur-md hover:bg-white/10 transition duration-300">
+          <button className="px-8 py-3 rounded-lg font-semibold
+          border border-slate-400/40
+          bg-white/5 backdrop-blur-md
+          hover:bg-white/10 transition duration-300">
             Explore Community
           </button>
 
