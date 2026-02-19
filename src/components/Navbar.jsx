@@ -1,6 +1,13 @@
 "use client"
 import { useState } from "react"
+import Image from "next/image"
 import { Menu, X, Search, ChevronDown } from "lucide-react"
+import { Playfair_Display } from "next/font/google"
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400","600","700"],
+})
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -8,39 +15,64 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false)
 
   const navItems = [
-    { name: "Home", href: "/", options: ["Overview", "Highlights", "Announcements"] },
-    { name: "About", href: "/about", options: ["Our Mission", "Leadership", "History"] },
+    { name: "Home", href: "/", options: [{name:"Overview",href:"/"}, "Highlights", "Announcements"] },
+    {
+      name: "About",
+      href: "/about",
+      options: [
+        {name:"Our Mission", href:"/our-mission"},
+        { name: "Executive Committee", href: "/committees/executive-committee" },
+        { name: "Advisory Committee", href: "/committees/advisory-committee" },
+        { name: "Constitution", href: "/constitution" },
+        
+      ]
+    },
     { name: "Alumni", href: "/alumni", options: ["Directory", "Success Stories", "Chapters"] },
     { name: "Events", href: "/events", options: ["Upcoming", "Past Events", "Reunions"] },
     { name: "Contact", href: "/contact", options: ["Support", "FAQs", "Reach Us"] },
   ]
 
+  // Helper to normalize string/object options
+  const getOptionProps = (opt) => {
+    if (typeof opt === "string") return { name: opt, href: `/${opt.toLowerCase().replace(/\s/g,"-")}` }
+    return { name: opt.name, href: opt.href }
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full">
-
       <nav className="w-full backdrop-blur-xl border-b border-white/10 shadow-xl
-      bg-gradient-to-r from-[#020617] via-[#0f172a] to-[#1e3a8a]">
+        bg-gradient-to-r from-[#020617] via-[#0f172a] to-[#1e3a8a]">
 
         {/* TOP BAR */}
-        <div className="flex items-center justify-between px-6 sm:px-10 py-6">
+        <div className="flex items-center justify-between px-4 sm:px-10 py-4 sm:py-5">
 
-          {/* LOGO */}
+          {/* LOGO + TITLE */}
           <a href="/" className="flex items-center gap-3 cursor-pointer">
-            <div className="w-11 h-11 rounded-lg bg-white/10 flex items-center justify-center font-bold text-white text-lg">
-              A
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 shrink-0">
+              <Image
+                src="/images/logo1.png"
+                alt="IET Lucknow Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
-            <span className="text-white font-semibold text-2xl tracking-wide">
-              Alumni<span className="text-blue-300">Portal</span>
-            </span>
+            <div className="flex flex-col leading-tight">
+              <span className="font-bold uppercase tracking-wide
+                text-white text-sm sm:text-lg">
+                IET Lucknow
+              </span>
+              <span className={`${playfair.className} italic text-blue-300
+                text-sm sm:text-lg`}>
+                alumni
+              </span>
+            </div>
           </a>
 
           {/* DESKTOP NAV */}
           <div className="hidden lg:flex items-center gap-10">
-
             {navItems.map(item => (
               <div key={item.name} className="relative group">
-
-                {/* Nav Label */}
                 <a
                   href={item.href}
                   className="text-white/90 hover:text-white text-lg font-medium flex items-center gap-1 transition"
@@ -49,28 +81,27 @@ export default function Navbar() {
                   {item.options && <ChevronDown size={18}/>}
                 </a>
 
-                {/* Hover bridge */}
-                <div className="absolute left-0 right-0 h-5 top-full"></div>
-
-                {/* Dropdown */}
                 {item.options && (
                   <div
                     className="absolute left-0 top-full mt-2 w-56
-                    bg-[#0f172a] border border-white/10 shadow-2xl
-                    opacity-0 invisible scale-95
-                    group-hover:opacity-100 group-hover:visible group-hover:scale-100
-                    transition-all duration-200 origin-top"
+                      bg-[#0f172a] border border-white/10 shadow-2xl
+                      opacity-0 invisible scale-95
+                      group-hover:opacity-100 group-hover:visible group-hover:scale-100
+                      transition-all duration-200 origin-top"
                   >
-                    {item.options.map(opt => (
-                      <a
-                        key={opt}
-                        href={`/${opt.toLowerCase().replace(/\s/g,"-")}`}
-                        className="block px-6 py-3 text-sm text-white/80
-                        hover:text-white hover:bg-white/5 transition"
-                      >
-                        {opt}
-                      </a>
-                    ))}
+                    {item.options.map(opt => {
+                      const { name, href } = getOptionProps(opt)
+                      return (
+                        <a
+                          key={name}
+                          href={href}
+                          className="block px-6 py-3 text-sm text-white/80
+                            hover:text-white hover:bg-white/5 transition"
+                        >
+                          {name}
+                        </a>
+                      )
+                    })}
                   </div>
                 )}
               </div>
@@ -78,14 +109,13 @@ export default function Navbar() {
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="flex items-center gap-4">
-
+          <div className="flex items-center gap-3">
             {/* Desktop Search */}
             <div className="hidden md:flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-xl">
               <Search size={18} className="text-white/80"/>
               <input
                 placeholder="Search alumni..."
-                className="bg-transparent outline-none text-white placeholder:text-white/60 w-32 focus:w-48 transition-all"
+                className="bg-transparent outline-none text-white placeholder:text-white/60 w-28 focus:w-44 transition-all"
               />
             </div>
 
@@ -110,7 +140,6 @@ export default function Navbar() {
               className="lg:hidden text-white p-2 rounded-lg hover:bg-white/10">
               {menuOpen ? <X size={28}/> : <Menu size={28}/> }
             </button>
-
           </div>
         </div>
 
@@ -130,10 +159,8 @@ export default function Navbar() {
         {/* MOBILE MENU */}
         <div className={`lg:hidden overflow-hidden transition-all ${menuOpen ? "max-h-[600px] py-6" : "max-h-0"}`}>
           <div className="flex flex-col gap-5 px-6 text-white">
-
             {navItems.map(item => (
               <div key={item.name}>
-
                 <div
                   onClick={() =>
                     setActiveDropdown(activeDropdown === item.name ? null : item.name)
@@ -146,16 +173,19 @@ export default function Navbar() {
 
                 {item.options && (
                   <div className={`overflow-hidden transition-all
-                  ${activeDropdown === item.name ? "max-h-60 mt-2" : "max-h-0"}`}>
-                    {item.options.map(opt => (
-                      <a
-                        key={opt}
-                        href={`/${opt.toLowerCase().replace(/\s/g,"-")}`}
-                        className="block pl-4 py-2 text-white/70 hover:text-white"
-                      >
-                        {opt}
-                      </a>
-                    ))}
+                    ${activeDropdown === item.name ? "max-h-60 mt-2" : "max-h-0"}`}>
+                    {item.options.map(opt => {
+                      const { name, href } = getOptionProps(opt)
+                      return (
+                        <a
+                          key={name}
+                          href={href}
+                          className="block pl-4 py-2 text-white/70 hover:text-white"
+                        >
+                          {name}
+                        </a>
+                      )
+                    })}
                   </div>
                 )}
               </div>
@@ -164,10 +194,8 @@ export default function Navbar() {
             <button className="mt-3 bg-gradient-to-r from-blue-500 to-blue-700 py-3 rounded-xl font-semibold">
               Login
             </button>
-
           </div>
         </div>
-
       </nav>
     </header>
   )
