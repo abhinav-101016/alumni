@@ -16,7 +16,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false)
 
   const navItems = [
-    { name: "Home", href: "/", options: [{name:"Overview",href:"/"}, "Highlights", "Announcements"] },
+    { name: "Home", href: "/", options: [{name:"Overview",href:"/"},{name:"Highlights",href:"/highlights"}, "Announcements"] },
     {
       name: "About",
       href: "/about",
